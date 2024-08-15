@@ -5,7 +5,7 @@ const campoEmail = document.getElementById("email")
 const campoIdade = document.getElementById("idade")
 const salvar = document.getElementById("adicionar")
 
-
+const formPesquisa = document.getElementById("formPesquisa")
 const pesquisar = document.getElementById("pesquisar")
 const listarTodos = document.getElementById("listarTodos")
 const campoMatriculaPesquisa = document.getElementById("matriculaPesquisa")
@@ -66,14 +66,11 @@ function salvarAluno(){
 
 pesquisar.addEventListener("click", function(event){
     event.preventDefault(); 
-
-    pesquisarPorMatricula()
-
+    let matricula = campoMatriculaPesquisa.value
+    pesquisarPorMatricula(matricula)
 });
 
-function pesquisarPorMatricula(){
-let matricula = campoMatriculaPesquisa.value
-
+function pesquisarPorMatricula(matricula){
 
     fetch(`http://localhost:8080/aluno/obter/${matricula}`, { 
         method: 'GET',
@@ -82,6 +79,7 @@ let matricula = campoMatriculaPesquisa.value
         }
     })
     .then(response => {
+        formPesquisa.reset();
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -160,6 +158,7 @@ function createRows(datas){
                 tabelaCorpo.append(tr);
 
                 excluirAluno(btnExcluir)
+                editarAluno(btnEditar);
 
                 break;
             }
@@ -168,6 +167,75 @@ function createRows(datas){
         }
     }
     
+}
+
+function editarAluno(btnEditar){
+
+    const tr = btnEditar.closest("tr");
+    const matricula = tr.getAttribute("matricula");
+
+    btnEditar.addEventListener("click", function(event){
+
+
+    const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+    editModal.show();
+
+    
+    fetch(`http://localhost:8080/aluno/obter/${matricula}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("editNome").value = data.nome;
+        document.getElementById("editEmail").value = data.email;
+        document.getElementById("editIdade").value = data.idade;
+    })
+    .catch(error => console.error("Erro ao buscar dados para edição:", error));
+
+    document.getElementById("editAlunoForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        salvarAlteracoes();
+    });
+
+    function salvarAlteracoes() {
+        const nome = document.getElementById("editNome").value;
+        const email = document.getElementById("editEmail").value;
+        const idade = document.getElementById("editIdade").value;
+
+        let alunoData = {
+            matricula: matricula,
+            nome: nome,
+            email: email,
+            idade: idade
+        };
+
+        fetch(`http://localhost:8080/aluno/alterar?matricula=${matricula}`, { 
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(alunoData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Aluno atualizado:", data);
+            listAll(); 
+            editModal.hide(); 
+        })
+        .catch(error => {
+            console.error("Erro ao atualizar dados do aluno:", error);
+        });
+    }
+    })
+
 }
 
 function excluirAluno(btnExcluir){
@@ -197,7 +265,6 @@ function excluirAluno(btnExcluir){
         .catch(error => {
             console.error("Erro ao enviar dados para a API:", error);
         });
-    
     })
 
 }
