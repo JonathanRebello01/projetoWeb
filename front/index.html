@@ -5,82 +5,69 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <title>Trabalho Aranouá</title>
+    <title>CRUD ALuno</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Agenda</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Contatos</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
     <div class="container">
         <br>
-        <h2>Cadastro de Contato</h2>
+        <h2>Cadastro de Aluno</h2>
         <br>
         <form class="row g-3" id="form">
-          <div class="col-12">
-            <label for="nome" class="form-label">Nome Completo</label>
+          <div class="col-md-9">
+            <label for="nome" class="form-label">Nome</label>
             <input type="text" class="form-control" id="nome" required>
           </div>
-          <div class="col-md-6">
-            <label for="email" class="form-label">E-mail</label>
-            <input type="email" class="form-control" id="email" required>
+          <div class="col-md-3">
+            <label for="matricula" class="form-label">Matrícula</label>
+            <input type="number" class="form-control" id="matricula" required>
           </div>
-          <div class="col-md-6">
-            <label for="celular" class="form-label">Celular</label>
-            <input type="tel" class="form-control" id="celular" maxlength="15" required>
+          <div class="col-md-9">
+            <label for="email" class="form-label">E-mail</label>
+            <input type="email" class="form-control" id="email" maxlength="40" required>
+          </div>
+          <div class="col-md-3">
+            <label for="idade" class="form-label">Idade</label>
+            <input type="number" class="form-control" id="idade">
           </div>
           <div class="col-12">
-            <button type="submit" id="adicionar" class="btn btn-primary">Salvar</button>
-            <button type="button" id="limpar" class="btn btn-warning">Limpar</button>
+            <button type="submit" id="adicionar" class="btn btn-success">Salvar</button>
+          </div>
+        </form>
+
+        <br>
+        <h2>Pesuisa</h2>
+        <br>
+        <form class="row g-3" id="formPesquisa">
+          <div class="col-12">
+            <label for="matriculaPesquisa" class="form-label">Matrícula</label>
+            <input type="number" class="form-control" id="matriculaPesquisa" required>
+          </div>
+          
+          <div class="col-12">
+            <button type="button" id="pesquisar" class="btn btn-success">Pesquisar</button>
+            <button type="button" id="listarTodos" class="btn btn-primary">Listar Todos</button>
           </div>
         </form>
 
         <br><br>
-        <h2>Contatos Cadastrados</h2>
-        <table class="table" id="myTable">
-          <thead>
-            <tr>
-              <th scope="col">Nome</th>
-              <th scope="col">E-mail</th>
-              <th scope="col">Celular</th>
-              <th scope="col">Ações</th>
-            </tr>
-          </thead>
-          <tbody id="tabela">
-            <tr>
-              <td>José Silva</td>
-              <td>jose@contato.com</td>
-              <td>(99) 99999-9999</td>
-              <td>
-                <button type="button" class="btn btn-secondary btn-sm">Editar</button>
-                <button type="button" class="btn btn-danger btn-sm">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <td>Maria Santos</td>
-              <td>maria@contato.com</td>
-              <td>(99) 88888-8888</td>
-              <td>
-                <button type="button" class="btn btn-secondary btn-sm">Editar</button>
-                <button type="button" class="btn btn-danger btn-sm">Excluir</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div style="display: none;" id="hiddenTable"> 
+          <h2>Alunos Cadastrados</h2>
+          <table class="table" id="myTable">
+            <thead>
+              <tr>
+                <th scope="col">Matrícula</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Idade</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabela">
+            
+            </tbody>
+          </table>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-    <script src="arquivo.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
